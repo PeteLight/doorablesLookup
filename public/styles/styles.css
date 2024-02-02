@@ -77,3 +77,23 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
+/* Add this to your styles.css or in a style block within the HTML file */
+.pagination {
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px; /* Adjust the margin as needed */
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.pagination a.active {
+  background-color: #4caf50;
+  color: white;
+  border: 1px solid #4caf50;
+}

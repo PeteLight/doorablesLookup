@@ -2,10 +2,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+
     <link rel="stylesheet" href="/styles/styles.css" />
   </head>
   <body>
-    <h1>Search Results</h1>
+    <h1>
+      Search Results
+      <% if (data.length > 0) { %>
+        (<%= (page - 1) * itemsPerPage + 1 %> -
+        <%= (page - 1) * itemsPerPage + data.length %> of <%= filteredData.length %>)
+      <% } %>
+    </h1>
 
     <% if (data.length === 0) { %>
     <!-- Display the Search Bar Form -->
@@ -45,6 +56,11 @@
         <% }); %>
       </tbody>
     </table>
+    <div class="pagination">
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <a href="/search?query=<%= encodeURIComponent(query) %>&page=<%= i %>" <% if (currentPage === i) { %>class="active"<% } %>><%= i %></a>
+      <% } %>
+    </div>
     <a href="/">Go Back to Landing Page</a>
     <% } else { %>
     <!-- Display a Message when No Data is Found -->

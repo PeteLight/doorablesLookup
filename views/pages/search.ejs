@@ -1,0 +1,55 @@
+<!-- searchResults.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
+  <body>
+    <h1>Search Results</h1>
+
+    <% if (data.length === 0) { %>
+    <!-- Display the Search Bar Form -->
+    <form action="/search" method="GET">
+      <input
+        type="text"
+        id="searchInput"
+        name="query"
+        placeholder="Enter your search query"
+        required
+      />
+      <button type="submit">Search</button>
+    </form>
+    <% } %> <% if (data.length > 0) { %>
+    <!-- Display Results in a Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Code</th>
+          <th>Type</th>
+          <th>Figure 1</th>
+          <th>Figure 2</th>
+          <th>Figure 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach(item => { %>
+        <tr>
+          <td><%= item.ID %></td>
+          <td><%= item.Code %></td>
+          <td><%= item.Type %></td>
+          <td><%= item['Figure 1'] || 'N/A' %></td>
+          <td><%= item['Figure 2'] || 'N/A' %></td>
+          <td><%= item['Figure 3'] || 'N/A' %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <a href="/">Go Back to Landing Page</a>
+    <% } else { %>
+    <!-- Display a Message when No Data is Found -->
+    <p>No results found for your search query.</p>
+    <a href="/">Go Back to Landing Page</a>
+    <% } %>
+  </body>
+</html>

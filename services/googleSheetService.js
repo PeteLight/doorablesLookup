@@ -17,6 +17,7 @@ if (hasLineBreaks) {
 
 // Ensure PRIVATE_KEY is formatted correctly
 const formattedPrivateKey = private_key.replace(/\\n/g, '\n');
+// console.log(formattedPrivateKey);
 
 // Use values from .env directly
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID;

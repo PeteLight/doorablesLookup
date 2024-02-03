@@ -13,27 +13,60 @@ const serviceAccountCredentials = JSON.parse(
   fs.readFileSync(absolutePath, 'utf8')
 );
 
-async function fetchData(SHEET_NAME) {
+// async function fetchData(SHEET_NAME) {
+//   const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
+//   const auth = await authorize();
+//   const sheets = google.sheets({ version: 'v4', auth });
+
+//   try {
+//     const response = await sheets.spreadsheets.values.get({
+//       spreadsheetId: SPREADSHEET_ID, // Fixed property name
+//       range: SHEET_NAME,
+//     });
+
+//     const values = response.data.values;
+//     const header = values[0];
+//     const data = values.slice(1).map((row) => {
+//       return header.reduce((obj, key, index) => {
+//         obj[key] = row[index];
+//         return obj;
+//       }, {});
+//     });
+
+//     return data; // Instead of modifying app.locals.sheetData directly
+//   } catch (error) {
+//     console.error('Error fetching data:', error.message);
+//     throw error;
+//   }
+// }
+
+async function fetchData() {
   const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
   const auth = await authorize();
   const sheets = google.sheets({ version: 'v4', auth });
 
   try {
-    const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID, // Fixed property name
-      range: SHEET_NAME,
+    const response = await sheets.spreadsheets.get({
+      spreadsheetId: SPREADSHEET_ID,
     });
 
-    const values = response.data.values;
-    const header = values[0];
-    const data = values.slice(1).map((row) => {
+    const sheetName = response.data.sheets[0].properties.title;
+    console.log(sheetName);
+
+    const values = await sheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: sheetName,
+    });
+
+    const header = values.data.values[0];
+    const data = values.data.values.slice(1).map((row) => {
       return header.reduce((obj, key, index) => {
         obj[key] = row[index];
         return obj;
       }, {});
     });
 
-    return data; // Instead of modifying app.locals.sheetData directly
+    return { sheetName, data };
   } catch (error) {
     console.error('Error fetching data:', error.message);
     throw error;

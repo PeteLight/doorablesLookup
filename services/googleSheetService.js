@@ -2,15 +2,28 @@ const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
 
-const serviceAccountPath =
-  process.env.SERVICE_ACCOUNT_PATH || '../credentials.json';
-const absolutePath = path.join(__dirname, serviceAccountPath);
-const serviceAccountCredentials = JSON.parse(
-  fs.readFileSync(absolutePath, 'utf8')
-);
+// Read .env file and parse its content
+require('dotenv').config();
+
+// Check if PRIVATE_KEY has line breaks
+const private_key = process.env.PRIVATE_KEY;
+const hasLineBreaks = private_key.includes('\\n');
+
+if (hasLineBreaks) {
+  console.log('Line breaks are present in PRIVATE_KEY');
+} else {
+  console.log('Line breaks are not present in PRIVATE_KEY');
+}
+
+// Ensure PRIVATE_KEY is formatted correctly
+const formattedPrivateKey = private_key.replace(/\\n/g, '\n');
+
+// Use values from .env directly
+const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
+const CLIENT_EMAIL = process.env.CLIENT_EMAIL;
+const CLIENT_ID = process.env.CLIENT_ID;
 
 async function fetchData(sheetName, query) {
-  const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
   const auth = await authorize();
   const sheets = google.sheets({ version: 'v4', auth });
 
@@ -51,7 +64,6 @@ async function fetchData(sheetName, query) {
 }
 
 async function getSheetNames() {
-  const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
   const auth = await authorize();
   const sheets = google.sheets({ version: 'v4', auth });
 
@@ -71,10 +83,9 @@ async function getSheetNames() {
 }
 
 async function authorize() {
-  const { client_email, private_key } = serviceAccountCredentials;
   const jwtClient = new google.auth.JWT({
-    email: serviceAccountCredentials.client_email,
-    key: serviceAccountCredentials.private_key,
+    email: CLIENT_EMAIL,
+    key: formattedPrivateKey,
     scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
   });
 

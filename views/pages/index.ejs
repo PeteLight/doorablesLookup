@@ -13,9 +13,18 @@
       packaging.
     </p>
     <form action="/search" method="get">
-      <label for="searchInput"></label>
+      <label for="searchInput">Search:</label>
       <input type="text" id="searchInput" name="query" required />
       <button type="submit">Search</button>
+
+      <div>
+        <label for="selectedSheet">Select Sheet:</label>
+        <select id="selectedSheet" name="selectedSheet">
+          <% for (const sheetName of sheetNames) { %>
+          <option value="<%= sheetName %>"><%= sheetName %></option>
+          <% } %>
+        </select>
+      </div>
     </form>
   </body>
 </html>

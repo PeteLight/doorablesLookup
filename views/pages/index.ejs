@@ -4,27 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Doorable Searcher</title>
+    <!-- Include Bootstrap CSS from CDN -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
     <link rel="stylesheet" href="/styles/styles.css" />
   </head>
   <body>
-    <h1>Doorable LookUp</h1>
-    <p>
-      Search for Doorables by name, or by entering the code you'll find on the
-      packaging.
-    </p>
-    <form action="/search" method="get">
-      <label for="searchInput">Search:</label>
-      <input type="text" id="searchInput" name="query" required />
-      <button type="submit">Search</button>
+    <div class="container mt-5">
+      <h1 class="text-center">Doorable LookUp</h1>
+      <form class="row" action="/search" method="get">
+        <div class="col-md-4 form-group">
+          <!-- <label for="selectedSheet"></label> -->
+          <select
+            class="form-control"
+            id="selectedSheet"
+            name="selectedSheet"
+            required
+          >
+            <option value="" disabled selected>Please select a sheet</option>
+            <% for (const sheetName of sheetNames) { %>
+            <option value="<%= sheetName %>"><%= sheetName %></option>
+            <% } %>
+          </select>
+        </div>
 
-      <div>
-        <label for="selectedSheet">Select Sheet:</label>
-        <select id="selectedSheet" name="selectedSheet">
-          <% for (const sheetName of sheetNames) { %>
-          <option value="<%= sheetName %>"><%= sheetName %></option>
-          <% } %>
-        </select>
-      </div>
-    </form>
+        <div class="col-md-4 form-group">
+          <label for="searchInput" class="sr-only">Search:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="searchInput"
+            name="query"
+            placeholder="Search"
+            required
+          />
+        </div>
+
+        <div class="col-md-4 form-group">
+          <button type="submit" class="btn btn-primary btn-block">
+            Search
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Include Bootstrap JavaScript and jQuery from CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </body>
 </html>

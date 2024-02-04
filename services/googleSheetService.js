@@ -8,9 +8,6 @@ const {
 const fs = require('fs');
 const path = require('path');
 
-// Read .env file and parse its content
-require('dotenv').config();
-
 // Ensure PRIVATE_KEY is formatted correctly
 const formattedPrivateKey = readAndFormatPrivateKey();
 

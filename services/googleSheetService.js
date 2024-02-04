@@ -1,5 +1,10 @@
 const { google } = require('googleapis');
-const { readAndFormatPrivateKey } = require('../utilities/privateKeyReader');
+const {
+  SPREADSHEET_ID,
+  CLIENT_EMAIL,
+  CLIENT_ID,
+  readAndFormatPrivateKey,
+} = require('../utilities/config');
 const fs = require('fs');
 const path = require('path');
 
@@ -8,12 +13,6 @@ require('dotenv').config();
 
 // Ensure PRIVATE_KEY is formatted correctly
 const formattedPrivateKey = readAndFormatPrivateKey();
-// console.log(formattedPrivateKey);
-
-// Use values from .env directly
-const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
-const CLIENT_EMAIL = process.env.CLIENT_EMAIL;
-const CLIENT_ID = process.env.CLIENT_ID;
 
 async function fetchData(sheetName, query) {
   const auth = await authorize();

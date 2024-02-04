@@ -18,4 +18,9 @@ function readAndFormatPrivateKey() {
   return formattedPrivateKey;
 }
 
-module.exports = { readAndFormatPrivateKey };
+module.exports = {
+  SPREADSHEET_ID: process.env.SPREADSHEET_ID,
+  CLIENT_EMAIL: process.env.CLIENT_EMAIL,
+  CLIENT_ID: process.env.CLIENT_ID,
+  readAndFormatPrivateKey: readAndFormatPrivateKey,
+};

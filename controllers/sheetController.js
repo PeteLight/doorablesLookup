@@ -2,6 +2,7 @@ const express = require('express');
 const { fetchData } = require('../services/googleSheetService');
 const { processData } = require('../utilities/dataProcessor');
 const { paginateData } = require('../utilities/pagination');
+const { ITEMS_PER_PAGE } = require('../utilities/config');
 
 const router = express.Router();
 
@@ -31,7 +32,7 @@ router.get('/search', async (req, res) => {
     const { paginatedData, totalPages } = paginateData(
       filteredData,
       page,
-      itemsPerPage
+      ITEMS_PER_PAGE
     );
 
     res.render('pages/search', {
@@ -40,7 +41,7 @@ router.get('/search', async (req, res) => {
       totalPages: totalPages,
       query: req.query.query,
       page: page,
-      itemsPerPage: itemsPerPage,
+      itemsPerPage: ITEMS_PER_PAGE,
       filteredData: filteredData,
       sheetName: sheetName,
       selectedSheet: selectedSheet,

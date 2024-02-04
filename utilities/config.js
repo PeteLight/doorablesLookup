@@ -22,5 +22,6 @@ module.exports = {
   SPREADSHEET_ID: process.env.SPREADSHEET_ID,
   CLIENT_EMAIL: process.env.CLIENT_EMAIL,
   CLIENT_ID: process.env.CLIENT_ID,
+  ITEMS_PER_PAGE: 20,
   readAndFormatPrivateKey: readAndFormatPrivateKey,
 };

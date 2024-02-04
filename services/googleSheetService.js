@@ -1,22 +1,13 @@
 const { google } = require('googleapis');
+const { readAndFormatPrivateKey } = require('../utilities/privateKeyReader');
 const fs = require('fs');
 const path = require('path');
 
 // Read .env file and parse its content
 require('dotenv').config();
 
-// Check if PRIVATE_KEY has line breaks
-const private_key = process.env.PRIVATE_KEY;
-const hasLineBreaks = private_key.includes('\\n');
-
-if (hasLineBreaks) {
-  console.log('Line breaks are present in PRIVATE_KEY');
-} else {
-  console.log('Line breaks are not present in PRIVATE_KEY');
-}
-
 // Ensure PRIVATE_KEY is formatted correctly
-const formattedPrivateKey = private_key.replace(/\\n/g, '\n');
+const formattedPrivateKey = readAndFormatPrivateKey();
 // console.log(formattedPrivateKey);
 
 // Use values from .env directly

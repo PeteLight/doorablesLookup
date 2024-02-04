@@ -5,7 +5,7 @@ const express = require('express');
 const sheetController = require('./controllers/sheetController');
 const { getSheetNames, fetchData } = require('./services/googleSheetService');
 
-const app = express();
+let app = express();
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');

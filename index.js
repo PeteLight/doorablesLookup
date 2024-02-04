@@ -10,18 +10,29 @@ let app = express();
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-app.locals.sheetData = null;
-app.locals.sheetNames = null;
+// Use middleware to fetch and set sheet names
+app.use(async (req, res, next) => {
+  try {
+    const sheetNames = await getSheetNames();
+    app.locals.sheetNames = sheetNames;
+
+    // Continue with the next middleware or route handler
+    next();
+  } catch (error) {
+    console.error('Error fetching sheet names:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 app.use('/', sheetController);
 
 async function startApp() {
   try {
-    const sheetNames = await getSheetNames();
+    // Fetch data for the default sheet (e.g., the first sheet in the array)
+    const sheetNames = app.locals.sheetNames || (await getSheetNames());
     app.locals.sheetNames = sheetNames;
 
-    // Fetch data for the default sheet (e.g., the first sheet in the array)
-    const defaultSheet = sheetNames[0]; // You can modify this based on your logic
+    const defaultSheet = sheetNames[0];
     const { sheetName, data } = await fetchData(defaultSheet);
 
     app.locals.sheetData = data;

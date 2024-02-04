@@ -13,7 +13,7 @@
   <body>
     <div class="container mt-5">
       <h1>
-        Search Results for "<%= sheetName %>"
+        Search Results for - "<%= query %>" from "<%= sheetName %>"
         <% if (data.length > 0) { %>
           (<%= (page - 1) * itemsPerPage + 1 %> -
           <%= (page - 1) * itemsPerPage + data.length %> of <%= filteredData.length %>)

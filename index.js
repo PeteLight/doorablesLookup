@@ -28,13 +28,15 @@ app.use('/', sheetController);
 
 async function startApp() {
   try {
-    // Fetch data for the default sheet (e.g., the first sheet in the array)
-    const sheetNames = app.locals.sheetNames || (await getSheetNames());
+    // Concurrently fetch sheet names and data
+    const [sheetNames, { sheetName, data }] = await Promise.all([
+      app.locals.sheetNames || getSheetNames(),
+      app.locals.sheetNames
+        ? fetchData(app.locals.sheetNames[0])
+        : fetchData((await getSheetNames())[0]),
+    ]);
+
     app.locals.sheetNames = sheetNames;
-
-    const defaultSheet = sheetNames[0];
-    const { sheetName, data } = await fetchData(defaultSheet);
-
     app.locals.sheetData = data;
     app.locals.sheetName = sheetName;
 

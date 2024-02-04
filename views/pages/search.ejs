@@ -21,60 +21,75 @@
       </h1>
 
       <% if (data.length === 0) { %>
-      <!-- Display the Search Bar Form -->
-      <form class="row mb-4" action="/search" method="GET">
-        <div class="col-md-8">
-          <input
-            type="text"
-            class="form-control"
-            id="searchInput"
-            name="query"
-            placeholder="Enter your search query"
-            required
-          />
-        </div>
-        <div class="col-md-4">
-          <button type="submit" class="btn btn-primary btn-block">Search</button>
-        </div>
-      </form>
+        <!-- Display the Search Bar Form with Dropdown -->
+        <form class="row mb-4" action="/search" method="GET">
+          <div class="col-md-4 form-group">
+            <select
+              class="form-control"
+              id="selectedSheet"
+              name="selectedSheet"
+              required
+            >
+              <option value="" disabled selected>Please select a sheet</option>
+              <% for (const sheetName of sheetNames) { %>
+                <option value="<%= sheetName %>"><%= sheetName %></option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="col-md-4 form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="searchInput"
+              name="query"
+              placeholder="Enter your search query"
+              required
+            />
+          </div>
+
+          <div class="col-md-4 form-group">
+            <button type="submit" class="btn btn-primary btn-block">Search</button>
+          </div>
+        </form>
       <% } %>
 
       <% if (data.length > 0) { %>
-      <!-- Display Results in a Table -->
-      <table class="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Code</th>
-            <th>Type</th>
-            <th>Figure 1</th>
-            <th>Figure 2</th>
-            <th>Figure 3</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% data.forEach(item => { %>
-          <tr>
-            <td><%= item.ID %></td>
-            <td><%= item.Code %></td>
-            <td><%= item.Type %></td>
-            <td><%= item['Figure 1'] || 'N/A' %></td>
-            <td><%= item['Figure 2'] || 'N/A' %></td>
-            <td><%= item['Figure 3'] || 'N/A' %></td>
-          </tr>
-          <% }); %>
-        </tbody>
-      </table>
-      <div class="pagination">
-        <% for (let i = 1; i <= totalPages; i++) { %>
-          <a href="/search?query=<%= encodeURIComponent(query) %>&selectedSheet=<%= selectedSheet %>&page=<%= i %>" <% if (currentPage === i) { %>class="active"<% } %>><%= i %></a>
-        <% } %>
-      </div>
-      <a href="/" class="btn btn-secondary">Go Back to Landing Page</a>
+        <!-- Display Results in a Table -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Code</th>
+              <th>Type</th>
+              <th>Figure 1</th>
+              <th>Figure 2</th>
+              <th>Figure 3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% data.forEach(item => { %>
+              <tr>
+                <td><%= item.ID %></td>
+                <td><%= item.Code %></td>
+                <td><%= item.Type %></td>
+                <td><%= item['Figure 1'] || 'N/A' %></td>
+                <td><%= item['Figure 2'] || 'N/A' %></td>
+                <td><%= item['Figure 3'] || 'N/A' %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <div class="pagination">
+          <% for (let i = 1; i <= totalPages; i++) { %>
+            <a href="/search?query=<%= encodeURIComponent(query) %>&selectedSheet=<%= selectedSheet %>&page=<%= i %>" <% if (currentPage === i) { %>class="active"<% } %>><%= i %></a>
+          <% } %>
+        </div>
+        <a href="/" class="btn btn-secondary">Go Back to Landing Page</a>
       <% } else { %>
-      <!-- Display a Message when No Data is Found -->
-      <p>No results found for your search query.</p>
-      <a href="/" class="btn btn-secondary">Go Back to Landing Page</a>
+        <!-- Display a Message when No Data is Found -->
+        <p>No results found for your search query.</p>
+        <a href="/" class="btn btn-secondary">Go Back to Landing Page</a>
       <% } %>
     </div>
 

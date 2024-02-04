@@ -1,7 +1,7 @@
 const express = require('express');
 const { fetchData } = require('../services/googleSheetService');
 const { processData } = require('../utilities/dataProcessor');
-const { paginateData } = require('../utilities/pagination'); // Adjust the path as needed
+const { paginateData } = require('../utilities/pagination');
 
 const router = express.Router();
 
